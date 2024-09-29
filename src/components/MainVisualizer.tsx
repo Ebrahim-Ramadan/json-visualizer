@@ -5,6 +5,7 @@ import {LoadingSpinner} from './LoadingSpinner'
 // @ts-ignore
 import {copyToClipboard} from '~/copy'
 import { toast } from 'sonner'
+import { DownloadCloud } from 'lucide-react'
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
 
 interface JsonNodeProps {
@@ -82,7 +83,7 @@ const Component: React.FC = () => {
       setParsedJson(parsed)
       setError(null)
     } catch (e) {
-      setError('Invalid JSON input. Please check your JSON and try again.')
+      setError('Invalid JSON input.')
       setParsedJson(null)
     }
   }
@@ -105,38 +106,43 @@ const Component: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-4 w-full min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">JSON Visualizer</h1>
       <div className="flex gap-2 mb-4 flex-row justify-between w-full">
-        <button
-          onClick={handleVisualize}
-          disabled={isLoading}
-          className={`px-4 py-2 text-white bg-green-600 rounded-md ${isLoading ? 'opacity-50' : 'hover:bg-green-500'}`}
-        >
-          Visualize
-        </button>
+      <h1 className="text-2xl font-bold">JSON Visualizer</h1>
+       
         {isLoading ?
           <LoadingSpinner/>
         :
           <button
             onClick={fetchDummyData}
             disabled={isLoading}
-            className={`px-4 py-2 text-white bg-blue-600 rounded-md ${isLoading ? 'opacity-50' : 'hover:bg-blue-500'}`}
+            className={`px-2 py-1 text-xs flex flex-row items-center gap-2 text-white bg-blue-600 rounded-full ${isLoading ? 'opacity-50' : 'hover:bg-blue-500'}`}
           >
-            Load Example Data
+            dummyjson
+            <DownloadCloud size='16'/>
           </button>
         }
       </div>
       <textarea
         value={jsonInput}
         onChange={(e) => setJsonInput(e.target.value)}
-        placeholder="Paste your JSON here or load example data..."
-        className="w-full h-40 p-2 border border-gray-300 rounded-md mb-4"
+        placeholder="Paste your JSON here or use dummyjson to load example data..."
+        className="w-full h-56 p-2 border border-neutral-600 rounded-xl bg-black/50 focus:border-neutral-500 focus:outline-none"
       />
-      {error && (
-        <div className="bg-red-100 text-red-800 p-4 rounded-md mb-4">
+     
+        <div className={`flex flex-row ${error? 'justify-between' : 'justify-end'} items-center w-full my-4`}>
+        {error && (
+        <div className="bg-red-100 text-red-800 px-2 py-1 font-medium rounded-full">
           {error}
         </div>
       )}
+        <button
+          onClick={handleVisualize}
+          disabled={isLoading}
+          className={`px-2  py-1 text-base text-white font-medium bg-green-600 rounded-full ${isLoading ? 'opacity-50' : 'hover:bg-green-500'}`}
+        >
+          GO
+        </button>
+        </div>
       {parsedJson && (
         <div className="bg-black p-4 rounded-md overflow-auto min-h-72">
           <JsonNode data={parsedJson} isRoot={true} path="" />
