@@ -1,6 +1,6 @@
 import { lazy, Suspense, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster, toast } from 'sonner'
+import { Toaster } from 'sonner'
 const ReactQueryDevtoolsProduction = lazy(() =>
   import("@tanstack/react-query-devtools").then((d) => ({
     default: d.ReactQueryDevtools,

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import {LoadingSpinner} from './LoadingSpinner'
+// @ts-ignore
 import {copyToClipboard} from '~/copy'
 import { toast } from 'sonner'
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
@@ -30,7 +31,7 @@ const JsonNode: React.FC<JsonNodeProps> = ({ data, isRoot = false, path }) => {
   const items = isArray ? data : Object.entries(data)
 
   return (
-    <div className="ml-4 cursor-pointer">
+    <div className="ml-2 cursor-pointer">
       <span
         className=" inline-flex items-center"
         onClick={() => setIsExpanded(!isExpanded)}
