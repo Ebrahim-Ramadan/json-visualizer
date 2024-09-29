@@ -1,29 +1,40 @@
 'use client'
 
 import React, { useState } from 'react'
-
+import {LoadingSpinner} from './LoadingSpinner'
+import {copyToClipboard} from '~/copy'
+import { toast } from 'sonner'
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
 
 interface JsonNodeProps {
   data: JsonValue
   isRoot?: boolean
+  path: string
 }
 
-const JsonNode: React.FC<JsonNodeProps> = ({ data, isRoot = false }) => {
+const JsonNode: React.FC<JsonNodeProps> = ({ data, isRoot = false, path }) => {
   const [isExpanded, setIsExpanded] = useState(isRoot)
 
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    console.log(path)
+    copyToClipboard(path)
+    toast.success(`item path copied`)
+  }
+
   if (typeof data !== 'object' || data === null) {
-    return <span className="text-green-600">{JSON.stringify(data)}</span>
+    return <span className="text-green-600 cursor-pointer" onMouseDown={handleMouseEnter}>{JSON.stringify(data)}</span>
   }
 
   const isArray = Array.isArray(data)
   const items = isArray ? data : Object.entries(data)
 
   return (
-    <div className="ml-4">
+    <div className="ml-4 cursor-pointer">
       <span
-        className="cursor-pointer inline-flex items-center"
+        className=" inline-flex items-center"
         onClick={() => setIsExpanded(!isExpanded)}
+        onMouseDown={handleMouseEnter}
       >
         {isExpanded ? '▼' : '▶'} {isArray ? '[' : '{'}
       </span>
@@ -31,8 +42,23 @@ const JsonNode: React.FC<JsonNodeProps> = ({ data, isRoot = false }) => {
         <div className="ml-4">
           {(items as any[]).map((item, index) => (
             <div key={index}>
-              {!isArray && <span className="text-blue-600">{JSON.stringify(item[0])}: </span>}
-              <JsonNode data={isArray ? item : item[1]} />
+              {!isArray && (
+                <span 
+                  className="text-blue-600 hover:text-blue-400" 
+                  onMouseDown={(e) => {
+                    e.stopPropagation()
+                    console.log(`${path}.${item[0]}`)
+                    copyToClipboard(`${path}.${item[0]}`)
+                    toast.success(`item path copied`)
+                  }}
+                >
+                  {JSON.stringify(item[0])}: 
+                </span>
+              )}
+              <JsonNode 
+                data={isArray ? item : item[1]} 
+                path={isArray ? `${path}[${index}]` : `${path}.${item[0]}`}
+              />
               {index < items.length - 1 && ','}
             </div>
           ))}
@@ -79,14 +105,7 @@ const Component: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto p-4 w-full min-h-screen">
       <h1 className="text-2xl font-bold mb-4">JSON Visualizer</h1>
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={fetchDummyData}
-          disabled={isLoading}
-          className={`px-4 py-2 text-white bg-blue-600 rounded-md ${isLoading ? 'opacity-50' : 'hover:bg-blue-500'}`}
-        >
-          {isLoading ? 'Loading...' : 'Load Example Data'}
-        </button>
+      <div className="flex gap-2 mb-4 flex-row justify-between w-full">
         <button
           onClick={handleVisualize}
           disabled={isLoading}
@@ -94,6 +113,17 @@ const Component: React.FC = () => {
         >
           Visualize
         </button>
+        {isLoading ?
+          <LoadingSpinner/>
+        :
+          <button
+            onClick={fetchDummyData}
+            disabled={isLoading}
+            className={`px-4 py-2 text-white bg-blue-600 rounded-md ${isLoading ? 'opacity-50' : 'hover:bg-blue-500'}`}
+          >
+            Load Example Data
+          </button>
+        }
       </div>
       <textarea
         value={jsonInput}
@@ -108,7 +138,7 @@ const Component: React.FC = () => {
       )}
       {parsedJson && (
         <div className="bg-black p-4 rounded-md overflow-auto min-h-72">
-          <JsonNode data={parsedJson} isRoot={true} />
+          <JsonNode data={parsedJson} isRoot={true} path="" />
         </div>
       )}
     </div>
