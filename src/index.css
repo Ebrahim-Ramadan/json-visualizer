@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@layer base{
+  .primaryButton {
+    @apply bg-white rounded-3xl text-sm md:text-base text-black font-medium md:font-bold px-3 py-2 md:px-4 md:py-2 hover:bg-white/85 transition duration-300;
+  }
+}
+@tailwind utilities;
+:root {
+    --bg-color: #171717;
+    --text-color: white;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      color-scheme: dark;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #8787879d;
+    border-radius: 0;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #5f89ec;
+    border-radius: 0;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9dcbffe8;
+  }
