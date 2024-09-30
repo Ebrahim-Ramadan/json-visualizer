@@ -85,7 +85,7 @@ const Component: React.FC = () => {
       setParsedJson(parsed)
       setError(null)
     } catch (e) {
-      setError('Invalid JSON input.')
+      setError('⬆Invalid JSON input.')
       setParsedJson(null)
     }
   }
@@ -109,8 +109,14 @@ const Component: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto p-4 w-full min-h-screen">
       <div className="flex gap-2 mb-4 flex-row justify-between w-full">
-      <h1 className="text-2xl font-bold">JSON Visualizer</h1>
-       
+<div className='flex flex-row items-end gap-2'>
+  <img
+  src='/favicon.svg'
+  className='w-8 h-8'
+  />
+<h1 className="text-2xl font-bold">JSON Visualizer </h1>
+<a href='https://github.com/Ebrahim-Ramadan/json-visualizer' target='_blank' className='text-xs text-blue-500 underline '>source code</a>
+  </div>       
         {isLoading ?
           <LoadingSpinner/>
         :
