@@ -167,7 +167,7 @@ const Component: React.FC = () => {
             
           </button>
             </div>
-          <p className='text-neutral-500 text-xs text-end self-end'>
+          <p className='text-neutral-500 text-xs text-end self-end w-full'>
           click on an item to copy its path
 
           </p>
