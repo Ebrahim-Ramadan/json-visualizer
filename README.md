@@ -1,4 +1,7 @@
 [live](https://cool-json-visualizer.vercel.app/)
+<br/>
+![og-image](https://github.com/user-attachments/assets/bf6819c4-844c-45b8-92d0-642094fd0ba9)
+
 ### WHAT IS THIS
 
 A simple JSON visualizer, built in [vite + react](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). 
