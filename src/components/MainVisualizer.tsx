@@ -111,16 +111,17 @@ const Component: React.FC = () => {
       <div className="flex gap-2 mb-4 flex-row justify-between w-full">
 <div className='flex flex-row items-end gap-2'>
   <img
-  src='/favicon.svg'
-  className='w-8 h-8'
+  src='/favicon.png'
+  className='w-14 h-auto'
   />
-<h1 className="text-2xl font-bold">JSON Visualizer </h1>
+{/* <h1 className="text-2xl font-bold">JSON Visualizer </h1> */}
 <a href='https://github.com/Ebrahim-Ramadan/json-visualizer' target='_blank' className='text-xs text-blue-500 underline '>source code</a>
   </div>       
         {isLoading ?
           <LoadingSpinner/>
         :
           <button
+
             onClick={fetchDummyData}
             disabled={isLoading}
             className={`px-2 py-1 text-xs flex flex-row items-center gap-2 text-white bg-neutral-800 rounded-full ${isLoading ? 'opacity-50' : 'hover:bg-neutral-700'}`}
